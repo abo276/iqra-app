@@ -4,6 +4,7 @@ import { initHome } from './screens/home';
 import { initAlphabet } from './screens/alphabet';
 import { initVocab } from './screens/vocab';
 import { initSuras } from './screens/suras';
+import { initQuiz } from './screens/quiz';
 
 let xp = Number(localStorage.getItem('iqra_xp') ?? 0);
 let learnedLetters = new Set<string>(JSON.parse(localStorage.getItem('iqra_letters') ?? '[]'));
@@ -59,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (tab === 'alphabet') initAlphabet();
       if (tab === 'vocab') initVocab();
       if (tab === 'suras') initSuras();
+      if (tab === 'quiz') initQuiz();
       if (tab === 'home') initHome();
     });
   });
