@@ -37,6 +37,7 @@ export function initHome(): void {
         ${quickBtn('🔤', 'alphabet', 'Arabisches Alphabet', '28 Buchstaben', '#92400e')}
         ${quickBtn('📖', 'vocab', 'Koran-Wortschatz', '50 Kernwörter', '#166534')}
         ${quickBtn('📿', 'suras', 'Suren verstehen', 'Vers für Vers', '#1e3a8a')}
+        ${quickBtn('🎵', 'tajweed', 'Tajweed-Regeln', 'Richtig rezitieren', '#d97706')}
         ${quickBtn('🎯', 'quiz', 'Quiz', 'Wissen testen', '#7c3aed')}
       </div>
 

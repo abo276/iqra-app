@@ -1,0 +1,169 @@
+[
+  {
+    "id": "lam",
+    "title": "Sonnenbuchstaben & Mondbuchstaben",
+    "title_ar": "الحروف الشمسية والقمرية",
+    "icon": "☀️🌙",
+    "short": "Wann wird das ل in الـ ausgesprochen?",
+    "color": "#f59e0b",
+    "rules": [
+      {
+        "name": "Mondbuchstaben (القمرية)",
+        "name_de": "Das ل wird deutlich ausgesprochen",
+        "symbol": "ال",
+        "letters": ["ا","ب","ج","ح","خ","ع","غ","ف","ق","ك","م","ه","و","ي"],
+        "example_ar": "اَلْحَمْدُ",
+        "example_de": "Al-hamdu — das L ist hörbar",
+        "tip": "Merkhilfe: Die 14 Mondbuchstaben — das L bleibt wie der Mond sichtbar."
+      },
+      {
+        "name": "Sonnenbuchstaben (الشمسية)",
+        "name_de": "Das ل wird assimiliert (verschmilzt)",
+        "symbol": "اَلـّ",
+        "letters": ["ت","ث","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ل","ن"],
+        "example_ar": "اَلرَّحْمَٰنِ",
+        "example_de": "Ar-Rahmān — das L verschwindet, R wird verdoppelt",
+        "tip": "Merkhilfe: Wie die Sonne — das L verschwindet im nächsten Buchstaben."
+      }
+    ]
+  },
+  {
+    "id": "madd",
+    "title": "Madd — Dehnung der Vokale",
+    "title_ar": "المدّ",
+    "icon": "↔️",
+    "short": "Wie lange werden Vokale gedehnt?",
+    "color": "#3b82f6",
+    "rules": [
+      {
+        "name": "Madd Tabii (طبيعي)",
+        "name_de": "Natürliche Dehnung — 2 Zählzeiten",
+        "symbol": "ا / و / ي",
+        "letters": [],
+        "example_ar": "قَالَ — نُوحٌ — فِي",
+        "example_de": "Qāla, Nūhun, Fī — 2 Zählzeiten halten",
+        "tip": "Immer wenn ein langer Vokal (ā, ū, ī) erscheint — 2 Zählzeiten dehnen."
+      },
+      {
+        "name": "Madd Wajib (واجب متصل)",
+        "name_de": "Pflichtdehnung — 4-5 Zählzeiten",
+        "symbol": "مدّ ـ ء",
+        "letters": [],
+        "example_ar": "جَآءَ — السَّمَآءِ",
+        "example_de": "Jā'a, As-samā'i — langer Vokal + Hamza im selben Wort",
+        "tip": "Wenn auf einen langen Vokal ein Hamza (ء) im selben Wort folgt — 4-5 Zählzeiten."
+      },
+      {
+        "name": "Madd Lazim (لازم)",
+        "name_de": "Notwendige Dehnung — 6 Zählzeiten",
+        "symbol": "ـّ",
+        "letters": [],
+        "example_ar": "وَلَا الضَّآلِّينَ",
+        "example_de": "Wa-la-d-dāllīn — 6 Zählzeiten bei Schadda nach Madd",
+        "tip": "Wenn nach einem langen Vokal ein Schadda (ّ) folgt — immer 6 Zählzeiten."
+      }
+    ]
+  },
+  {
+    "id": "nun",
+    "title": "Nun Sakin & Tanwin",
+    "title_ar": "النون الساكنة والتنوين",
+    "icon": "نْ",
+    "short": "4 Regeln für ن ohne Vokal oder Tanwin",
+    "color": "#10b981",
+    "rules": [
+      {
+        "name": "Idhar (إظهار) — Deutlich aussprechen",
+        "name_de": "Deutliche Aussprache des Nun",
+        "symbol": "إظهار",
+        "letters": ["ء","ه","ع","ح","غ","خ"],
+        "example_ar": "مِنْ هُدًى — أَنْعَمْتَ",
+        "example_de": "Min hudā — an'amta: Nun klar hörbar",
+        "tip": "Vor Kehlkopfbuchstaben (ء ه ع ح غ خ) — Nun wird deutlich gesprochen."
+      },
+      {
+        "name": "Idgham (إدغام) — Verschmelzung",
+        "name_de": "Nun verschmilzt mit dem nächsten Buchstaben",
+        "symbol": "إدغام",
+        "letters": ["ي","ر","م","ل","و","ن"],
+        "example_ar": "مِن رَّبِّهِمْ — مِن نِّعْمَةٍ",
+        "example_de": "Mir-Rabbihim — Min-ni'ma: Nun verschwindet",
+        "tip": "Vor يرملون — Nun wird in den folgenden Buchstaben assimiliert."
+      },
+      {
+        "name": "Iqlab (إقلاب) — Umwandlung",
+        "name_de": "Nun wird zu M",
+        "symbol": "إقلاب",
+        "letters": ["ب"],
+        "example_ar": "مِن بَعْدِ — سَمِيعٌ بَصِيرٌ",
+        "example_de": "Mim-ba'di — Samīmbasīr: Nun → M vor Ba",
+        "tip": "Vor ب wird das Nun in ein verstecktes Mim (م) verwandelt."
+      },
+      {
+        "name": "Ikhfa (إخفاء) — Verbergung",
+        "name_de": "Nun wird halb-verschluckt (Nase schwingt mit)",
+        "symbol": "إخفاء",
+        "letters": ["ت","ث","ج","د","ذ","ز","س","ش","ص","ض","ط","ظ","ف","ق","ك"],
+        "example_ar": "مِن قَبْلِ — إِن كُنتُمْ",
+        "example_de": "Min-qabli — In-kuntum: Nasalklang vor den 15 Buchstaben",
+        "tip": "Vor den restlichen 15 Buchstaben — Nasalton halten, Nun nicht vollständig aussprechen."
+      }
+    ]
+  },
+  {
+    "id": "qalqala",
+    "title": "Qalqala — Der Vibrationslaut",
+    "title_ar": "القلقلة",
+    "icon": "🔔",
+    "short": "5 Buchstaben die vibrieren wenn sie ohne Vokal stehen",
+    "color": "#8b5cf6",
+    "rules": [
+      {
+        "name": "Qalqala-Buchstaben",
+        "name_de": "Diese 5 Buchstaben 'hüpfen' am Wortende",
+        "symbol": "قطب جد",
+        "letters": ["ق","ط","ب","ج","د"],
+        "example_ar": "قُلْ — لَمْ يَلِدْ — الْفَلَقِ",
+        "example_de": "Qul, yalid, al-falaq: leichter Vibrationsnachklang",
+        "tip": "Merkhilfe: قطب جد (Qutb Jadd) — am Wort- oder Satzende entsteht ein leichtes Echo/Vibrato."
+      }
+    ]
+  },
+  {
+    "id": "mim",
+    "title": "Mim Sakin",
+    "title_ar": "الميم الساكنة",
+    "icon": "مْ",
+    "short": "3 Regeln für م ohne Vokal",
+    "color": "#ef4444",
+    "rules": [
+      {
+        "name": "Ikhfa Shafawi (إخفاء شفوي)",
+        "name_de": "Nasalklang — Lippen leicht geschlossen halten",
+        "symbol": "م + ب",
+        "letters": ["ب"],
+        "example_ar": "هُمْ بِهِ",
+        "example_de": "Hum-bihi: Nasalton, Lippen geschlossen, bei Ba",
+        "tip": "Mim + Ba: Lippen schließen, Nasalklang hören lassen."
+      },
+      {
+        "name": "Idgham Shafawi (إدغام شفوي)",
+        "name_de": "Mim verschmilzt mit folgendem Mim",
+        "symbol": "م + م",
+        "letters": ["م"],
+        "example_ar": "لَهُمْ مَا",
+        "example_de": "Lahum-ma: Ein langes Mim mit Schadda",
+        "tip": "Mim + Mim: Die beiden Mim verschmelzen zu einem langen Mim."
+      },
+      {
+        "name": "Idhar Shafawi (إظهار شفوي)",
+        "name_de": "Mim wird deutlich gesprochen",
+        "symbol": "م + andere",
+        "letters": [],
+        "example_ar": "أَمْ لَمْ — عَلَيْهِمْ",
+        "example_de": "Am lam — alayhim: Mim klar und deutlich",
+        "tip": "Vor allen anderen Buchstaben (außer ب und م) — Mim deutlich sprechen."
+      }
+    ]
+  }
+]
