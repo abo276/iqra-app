@@ -1,0 +1,27 @@
+[
+  {
+    "number": 1,
+    "name_ar": "الْفَاتِحَة",
+    "name_de": "Al-Fatiha (Die Eröffnende)",
+    "verses": [
+      {"verse": 1, "ar": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "de": "Im Namen Allahs, des Allbarmherzigen, des Barmherzigen", "words": [{"ar":"بِسْمِ","de":"Im Namen"},{"ar":"اللَّهِ","de":"Allahs"},{"ar":"الرَّحْمَٰنِ","de":"des Allbarmherzigen"},{"ar":"الرَّحِيمِ","de":"des Barmherzigen"}]},
+      {"verse": 2, "ar": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", "de": "Alles Lob gebührt Allah, dem Herrn der Welten", "words": [{"ar":"الْحَمْدُ","de":"Alles Lob"},{"ar":"لِلَّهِ","de":"gebührt Allah"},{"ar":"رَبِّ","de":"dem Herrn"},{"ar":"الْعَالَمِينَ","de":"der Welten"}]},
+      {"verse": 3, "ar": "الرَّحْمَٰنِ الرَّحِيمِ", "de": "Dem Allbarmherzigen, dem Barmherzigen", "words": [{"ar":"الرَّحْمَٰنِ","de":"dem Allbarmherzigen"},{"ar":"الرَّحِيمِ","de":"dem Barmherzigen"}]},
+      {"verse": 4, "ar": "مَالِكِ يَوْمِ الدِّينِ", "de": "dem Herrscher am Tag des Gerichts", "words": [{"ar":"مَالِكِ","de":"dem Herrscher"},{"ar":"يَوْمِ","de":"am Tag"},{"ar":"الدِّينِ","de":"des Gerichts"}]},
+      {"verse": 5, "ar": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "de": "Dir allein dienen wir, und Dich allein bitten wir um Hilfe", "words": [{"ar":"إِيَّاكَ","de":"Dir allein"},{"ar":"نَعْبُدُ","de":"dienen wir"},{"ar":"وَإِيَّاكَ","de":"und Dich allein"},{"ar":"نَسْتَعِينُ","de":"bitten wir um Hilfe"}]},
+      {"verse": 6, "ar": "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", "de": "Führe uns den geraden Weg", "words": [{"ar":"اهْدِنَا","de":"Führe uns"},{"ar":"الصِّرَاطَ","de":"den Weg"},{"ar":"الْمُسْتَقِيمَ","de":"den geraden"}]},
+      {"verse": 7, "ar": "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ", "de": "den Weg derer, denen Du Gunst erwiesen hast", "words": [{"ar":"صِرَاطَ","de":"den Weg"},{"ar":"الَّذِينَ","de":"derer"},{"ar":"أَنْعَمْتَ","de":"Du Gunst erwiesen hast"},{"ar":"عَلَيْهِمْ","de":"ihnen"}]}
+    ]
+  },
+  {
+    "number": 112,
+    "name_ar": "الْإِخْلَاص",
+    "name_de": "Al-Ikhlas (Die Aufrichtigkeit)",
+    "verses": [
+      {"verse": 1, "ar": "قُلْ هُوَ اللَّهُ أَحَدٌ", "de": "Sag: Er ist Allah, der Eine", "words": [{"ar":"قُلْ","de":"Sag"},{"ar":"هُوَ","de":"Er ist"},{"ar":"اللَّهُ","de":"Allah"},{"ar":"أَحَدٌ","de":"der Eine"}]},
+      {"verse": 2, "ar": "اللَّهُ الصَّمَدُ", "de": "Allah, der Beständige", "words": [{"ar":"اللَّهُ","de":"Allah"},{"ar":"الصَّمَدُ","de":"der Beständige"}]},
+      {"verse": 3, "ar": "لَمْ يَلِدْ وَلَمْ يُولَدْ", "de": "Er hat nicht gezeugt und wurde nicht gezeugt", "words": [{"ar":"لَمْ","de":"nicht"},{"ar":"يَلِدْ","de":"hat Er gezeugt"},{"ar":"وَلَمْ","de":"und nicht"},{"ar":"يُولَدْ","de":"wurde Er gezeugt"}]},
+      {"verse": 4, "ar": "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", "de": "Und niemand ist Ihm ebenbürtig", "words": [{"ar":"وَلَمْ","de":"und nicht"},{"ar":"يَكُن","de":"ist"},{"ar":"لَّهُ","de":"Ihm"},{"ar":"كُفُوًا","de":"ebenbürtig"},{"ar":"أَحَدٌ","de":"niemand"}]}
+    ]
+  }
+]

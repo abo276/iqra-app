@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>إقرأ — Koran-Arabisch lernen</title>
+  <meta name="description" content="Lerne Arabisch um den Koran zu verstehen — Alphabet, Vokabeln, Suren">
+  <meta name="theme-color" content="#1a0d00">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Lato:wght@300;400;700;900&family=Tajawal:wght@300;400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-content">
+    <div style="font-size:3.5rem;margin-bottom:8px;opacity:0;animation:floatUp .6s ease .2s forwards">📿</div>
+    <div class="splash-title">إقرأ</div>
+    <div class="splash-sub">IQRA · Lies · Lerne den Koran</div>
+
+    <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;margin-bottom:24px;width:100%;max-width:320px;opacity:0;animation:floatUp .6s ease 1.1s forwards">
+      <div style="font-family:var(--ar-font);font-size:1.3rem;color:#fbbf24;direction:rtl;text-align:center;margin-bottom:4px">اقْرَأْ بِاسْمِ رَبِّكَ</div>
+      <div style="font-family:var(--de-font);font-size:.75rem;color:rgba(255,255,255,.5);text-align:center">„Lies im Namen deines Herrn" — Al-Alaq 96:1</div>
+    </div>
+
+    <div style="width:100%;max-width:320px;opacity:0;animation:floatUp .6s ease 1.3s forwards">
+      <input id="splashName" type="text" placeholder="Dein Name" style="width:100%;padding:13px 18px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);border-radius:14px;font-family:var(--ui-font);font-size:1rem;color:#fff;outline:none;text-align:center;margin-bottom:12px;box-sizing:border-box">
+      <button id="splashStartBtn" style="width:100%;padding:14px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none;border-radius:14px;font-family:var(--ui-font);font-size:1rem;font-weight:700;color:#1c1917;cursor:pointer;box-shadow:0 8px 28px rgba(251,191,36,.35)">
+        بِسْمِ اللَّه — Jetzt beginnen
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div id="hdr">
+  <div>
+    <div class="hdr-title">إقرأ</div>
+    <div style="font-family:var(--de-font);font-size:.6rem;color:rgba(255,255,255,.4)" id="hdrName"></div>
+  </div>
+  <div class="hdr-xp" id="hdrXp">0 XP</div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div class="screen" id="sc-home"></div>
+  <div class="screen" id="sc-alphabet"></div>
+  <div class="screen" id="sc-vocab"></div>
+  <div class="screen" id="sc-suras"></div>
+  <div class="screen" id="sc-quiz"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav id="bnav">
+  <button class="bn" data-tab="home"><span>🏠</span>Start</button>
+  <button class="bn" data-tab="alphabet"><span>🔤</span>Alphabet</button>
+  <button class="bn" data-tab="vocab"><span>📖</span>Wörter</button>
+  <button class="bn" data-tab="suras"><span>📿</span>Suren</button>
+  <button class="bn" data-tab="quiz"><span>🎯</span>Quiz</button>
+</nav>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
