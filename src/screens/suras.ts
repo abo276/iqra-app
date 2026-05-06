@@ -13,17 +13,21 @@ export function initSuras(): void {
         Vers für Vers — jedes Wort mit Übersetzung
       </div>
       ${SURAS.map(s => `
-        <div style="background:var(--card);border-radius:16px;border:1.5px solid var(--border);padding:16px;margin-bottom:12px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.04)" data-sura="${s.number}">
-          <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="background:var(--card);border-radius:16px;border:1.5px solid var(--border);border-top:3px solid #92400e;padding:16px;margin-bottom:12px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.04)" data-sura="${s.number}">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
             <div>
               <div style="font-family:var(--ar-font);font-size:1.2rem;font-weight:700;color:#92400e;direction:rtl">${s.name_ar}</div>
-              <div style="font-family:var(--de-font);font-size:.8rem;color:var(--muted);margin-top:2px">${s.name_de}</div>
+              <div style="font-family:var(--de-font);font-size:.78rem;color:var(--muted);margin-top:2px">${s.name_de}</div>
             </div>
-            <div style="background:#fef9e7;border:1px solid #fcd34d;border-radius:10px;padding:4px 12px;font-family:var(--de-font);font-size:.75rem;font-weight:700;color:#92400e">
-              Sure ${s.number}
+            <div style="text-align:right">
+              <div style="background:#fef9e7;border:1px solid #fcd34d;border-radius:10px;padding:3px 10px;font-family:var(--de-font);font-size:.7rem;font-weight:700;color:#92400e;margin-bottom:4px">Sure ${s.number}</div>
+              <div style="font-family:var(--de-font);font-size:.62rem;color:var(--muted)">${(s as any).verses_count} Verse</div>
             </div>
           </div>
-          <div style="margin-top:10px;font-family:var(--ar-font);font-size:.85rem;color:var(--muted);direction:rtl;line-height:1.6">
+          <div style="background:#fef9e7;border-radius:8px;padding:8px 10px;font-family:var(--de-font);font-size:.72rem;color:#92400e;margin-bottom:8px">
+            💡 ${(s as any).theme}
+          </div>
+          <div style="font-family:var(--ar-font);font-size:1rem;color:var(--muted);direction:rtl;line-height:1.7;text-align:right">
             ${s.verses[0].ar}
           </div>
         </div>`).join('')}

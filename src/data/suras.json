@@ -3,6 +3,8 @@
     "number": 1,
     "name_ar": "الْفَاتِحَة",
     "name_de": "Al-Fatiha (Die Eröffnende)",
+    "verses_count": 7,
+    "theme": "Das Gebet — wird 17x täglich rezitiert",
     "verses": [
       {"verse": 1, "ar": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ", "de": "Im Namen Allahs, des Allbarmherzigen, des Barmherzigen", "words": [{"ar":"بِسْمِ","de":"Im Namen"},{"ar":"اللَّهِ","de":"Allahs"},{"ar":"الرَّحْمَٰنِ","de":"des Allbarmherzigen"},{"ar":"الرَّحِيمِ","de":"des Barmherzigen"}]},
       {"verse": 2, "ar": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", "de": "Alles Lob gebührt Allah, dem Herrn der Welten", "words": [{"ar":"الْحَمْدُ","de":"Alles Lob"},{"ar":"لِلَّهِ","de":"gebührt Allah"},{"ar":"رَبِّ","de":"dem Herrn"},{"ar":"الْعَالَمِينَ","de":"der Welten"}]},
@@ -10,18 +12,73 @@
       {"verse": 4, "ar": "مَالِكِ يَوْمِ الدِّينِ", "de": "dem Herrscher am Tag des Gerichts", "words": [{"ar":"مَالِكِ","de":"dem Herrscher"},{"ar":"يَوْمِ","de":"am Tag"},{"ar":"الدِّينِ","de":"des Gerichts"}]},
       {"verse": 5, "ar": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", "de": "Dir allein dienen wir, und Dich allein bitten wir um Hilfe", "words": [{"ar":"إِيَّاكَ","de":"Dir allein"},{"ar":"نَعْبُدُ","de":"dienen wir"},{"ar":"وَإِيَّاكَ","de":"und Dich allein"},{"ar":"نَسْتَعِينُ","de":"bitten wir um Hilfe"}]},
       {"verse": 6, "ar": "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ", "de": "Führe uns den geraden Weg", "words": [{"ar":"اهْدِنَا","de":"Führe uns"},{"ar":"الصِّرَاطَ","de":"den Weg"},{"ar":"الْمُسْتَقِيمَ","de":"den geraden"}]},
-      {"verse": 7, "ar": "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ", "de": "den Weg derer, denen Du Gunst erwiesen hast", "words": [{"ar":"صِرَاطَ","de":"den Weg"},{"ar":"الَّذِينَ","de":"derer"},{"ar":"أَنْعَمْتَ","de":"Du Gunst erwiesen hast"},{"ar":"عَلَيْهِمْ","de":"ihnen"}]}
+      {"verse": 7, "ar": "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ", "de": "den Weg derer, denen Du Gunst erwiesen hast, nicht derer, die Zorn erregt haben, und nicht der Irregehenden", "words": [{"ar":"صِرَاطَ","de":"den Weg"},{"ar":"الَّذِينَ","de":"derer"},{"ar":"أَنْعَمْتَ","de":"Du Gunst erwiesen hast"},{"ar":"عَلَيْهِمْ","de":"ihnen"},{"ar":"غَيْرِ","de":"nicht"},{"ar":"الْمَغْضُوبِ","de":"die Zorn erregt haben"},{"ar":"وَلَا","de":"und nicht"},{"ar":"الضَّالِّينَ","de":"der Irregehenden"}]}
+    ]
+  },
+  {
+    "number": 103,
+    "name_ar": "الْعَصْر",
+    "name_de": "Al-Asr (Die Zeit)",
+    "verses_count": 3,
+    "theme": "Der Wert der Zeit — Iman, gute Taten, Geduld",
+    "verses": [
+      {"verse": 1, "ar": "وَالْعَصْرِ", "de": "Bei der Zeit!", "words": [{"ar":"وَالْعَصْرِ","de":"Bei der Zeit"}]},
+      {"verse": 2, "ar": "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ", "de": "Wahrlich, der Mensch ist im Verlust", "words": [{"ar":"إِنَّ","de":"Wahrlich"},{"ar":"الْإِنسَانَ","de":"der Mensch"},{"ar":"لَفِي","de":"ist in"},{"ar":"خُسْرٍ","de":"Verlust"}]},
+      {"verse": 3, "ar": "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ", "de": "außer denen, die glauben, gute Werke tun, einander zur Wahrheit mahnen und einander zur Geduld mahnen", "words": [{"ar":"إِلَّا","de":"außer"},{"ar":"الَّذِينَ","de":"denen, die"},{"ar":"آمَنُوا","de":"glauben"},{"ar":"وَعَمِلُوا","de":"und tun"},{"ar":"الصَّالِحَاتِ","de":"gute Werke"},{"ar":"وَتَوَاصَوْا","de":"und mahnen einander"},{"ar":"بِالْحَقِّ","de":"zur Wahrheit"},{"ar":"بِالصَّبْرِ","de":"zur Geduld"}]}
+    ]
+  },
+  {
+    "number": 108,
+    "name_ar": "الْكَوْثَر",
+    "name_de": "Al-Kawthar (Der Überfluss)",
+    "verses_count": 3,
+    "theme": "Allahs Segen — Dankbarkeit und Gebet",
+    "verses": [
+      {"verse": 1, "ar": "إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ", "de": "Wir haben dir wahrlich den Überfluss gegeben", "words": [{"ar":"إِنَّا","de":"Wir wahrlich"},{"ar":"أَعْطَيْنَاكَ","de":"haben dir gegeben"},{"ar":"الْكَوْثَرَ","de":"den Überfluss (Al-Kawthar)"}]},
+      {"verse": 2, "ar": "فَصَلِّ لِرَبِّكَ وَانْحَرْ", "de": "So bete zu deinem Herrn und opfere", "words": [{"ar":"فَصَلِّ","de":"So bete"},{"ar":"لِرَبِّكَ","de":"zu deinem Herrn"},{"ar":"وَانْحَرْ","de":"und opfere"}]},
+      {"verse": 3, "ar": "إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ", "de": "Wahrlich, dein Feind ist der Abgetrennte (ohne Nachkommenschaft)", "words": [{"ar":"إِنَّ","de":"Wahrlich"},{"ar":"شَانِئَكَ","de":"dein Feind"},{"ar":"هُوَ","de":"er ist"},{"ar":"الْأَبْتَرُ","de":"der Abgetrennte"}]}
     ]
   },
   {
     "number": 112,
     "name_ar": "الْإِخْلَاص",
     "name_de": "Al-Ikhlas (Die Aufrichtigkeit)",
+    "verses_count": 4,
+    "theme": "Die Einheit Allahs — gilt ein Drittel des Korans",
     "verses": [
       {"verse": 1, "ar": "قُلْ هُوَ اللَّهُ أَحَدٌ", "de": "Sag: Er ist Allah, der Eine", "words": [{"ar":"قُلْ","de":"Sag"},{"ar":"هُوَ","de":"Er ist"},{"ar":"اللَّهُ","de":"Allah"},{"ar":"أَحَدٌ","de":"der Eine"}]},
-      {"verse": 2, "ar": "اللَّهُ الصَّمَدُ", "de": "Allah, der Beständige", "words": [{"ar":"اللَّهُ","de":"Allah"},{"ar":"الصَّمَدُ","de":"der Beständige"}]},
+      {"verse": 2, "ar": "اللَّهُ الصَّمَدُ", "de": "Allah, der Beständige (auf den alles angewiesen ist)", "words": [{"ar":"اللَّهُ","de":"Allah"},{"ar":"الصَّمَدُ","de":"der Beständige"}]},
       {"verse": 3, "ar": "لَمْ يَلِدْ وَلَمْ يُولَدْ", "de": "Er hat nicht gezeugt und wurde nicht gezeugt", "words": [{"ar":"لَمْ","de":"nicht"},{"ar":"يَلِدْ","de":"hat Er gezeugt"},{"ar":"وَلَمْ","de":"und nicht"},{"ar":"يُولَدْ","de":"wurde Er gezeugt"}]},
       {"verse": 4, "ar": "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ", "de": "Und niemand ist Ihm ebenbürtig", "words": [{"ar":"وَلَمْ","de":"und nicht"},{"ar":"يَكُن","de":"ist"},{"ar":"لَّهُ","de":"Ihm"},{"ar":"كُفُوًا","de":"ebenbürtig"},{"ar":"أَحَدٌ","de":"niemand"}]}
+    ]
+  },
+  {
+    "number": 113,
+    "name_ar": "الْفَلَق",
+    "name_de": "Al-Falaq (Der Morgengrauen)",
+    "verses_count": 5,
+    "theme": "Schutz vor allem Bösen — Morgen- und Abendgebet",
+    "verses": [
+      {"verse": 1, "ar": "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ", "de": "Sag: Ich suche Zuflucht beim Herrn des Morgengrauens", "words": [{"ar":"قُلْ","de":"Sag"},{"ar":"أَعُوذُ","de":"ich suche Zuflucht"},{"ar":"بِرَبِّ","de":"beim Herrn"},{"ar":"الْفَلَقِ","de":"des Morgengrauens"}]},
+      {"verse": 2, "ar": "مِن شَرِّ مَا خَلَقَ", "de": "vor dem Bösen dessen, was Er erschaffen hat", "words": [{"ar":"مِن","de":"vor"},{"ar":"شَرِّ","de":"dem Bösen"},{"ar":"مَا","de":"dessen was"},{"ar":"خَلَقَ","de":"Er erschaffen hat"}]},
+      {"verse": 3, "ar": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ", "de": "und vor dem Bösen der Dunkelheit, wenn sie hereinbricht", "words": [{"ar":"وَمِن","de":"und vor"},{"ar":"شَرِّ","de":"dem Bösen"},{"ar":"غَاسِقٍ","de":"der Dunkelheit"},{"ar":"إِذَا","de":"wenn"},{"ar":"وَقَبَ","de":"sie hereinbricht"}]},
+      {"verse": 4, "ar": "وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ", "de": "und vor dem Bösen der Bläserinnen in die Knoten", "words": [{"ar":"وَمِن","de":"und vor"},{"ar":"شَرِّ","de":"dem Bösen"},{"ar":"النَّفَّاثَاتِ","de":"der Bläserinnen"},{"ar":"فِي الْعُقَدِ","de":"in die Knoten"}]},
+      {"verse": 5, "ar": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ", "de": "und vor dem Bösen eines Neiders, wenn er neidet", "words": [{"ar":"وَمِن","de":"und vor"},{"ar":"شَرِّ","de":"dem Bösen"},{"ar":"حَاسِدٍ","de":"eines Neiders"},{"ar":"إِذَا","de":"wenn"},{"ar":"حَسَدَ","de":"er neidet"}]}
+    ]
+  },
+  {
+    "number": 114,
+    "name_ar": "النَّاس",
+    "name_de": "An-Nas (Die Menschen)",
+    "verses_count": 6,
+    "theme": "Schutz vor dem Einflüsterer — letzte Sure des Korans",
+    "verses": [
+      {"verse": 1, "ar": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ", "de": "Sag: Ich suche Zuflucht beim Herrn der Menschen", "words": [{"ar":"قُلْ","de":"Sag"},{"ar":"أَعُوذُ","de":"ich suche Zuflucht"},{"ar":"بِرَبِّ","de":"beim Herrn"},{"ar":"النَّاسِ","de":"der Menschen"}]},
+      {"verse": 2, "ar": "مَلِكِ النَّاسِ", "de": "dem König der Menschen", "words": [{"ar":"مَلِكِ","de":"dem König"},{"ar":"النَّاسِ","de":"der Menschen"}]},
+      {"verse": 3, "ar": "إِلَٰهِ النَّاسِ", "de": "dem Gott der Menschen", "words": [{"ar":"إِلَٰهِ","de":"dem Gott"},{"ar":"النَّاسِ","de":"der Menschen"}]},
+      {"verse": 4, "ar": "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ", "de": "vor dem Bösen des heimlichen Einflüsterers", "words": [{"ar":"مِن","de":"vor"},{"ar":"شَرِّ","de":"dem Bösen"},{"ar":"الْوَسْوَاسِ","de":"des Einflüsterers"},{"ar":"الْخَنَّاسِ","de":"des Zurückweichenden"}]},
+      {"verse": 5, "ar": "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ", "de": "der in die Herzen der Menschen einflüstert", "words": [{"ar":"الَّذِي","de":"der"},{"ar":"يُوَسْوِسُ","de":"einflüstert"},{"ar":"فِي صُدُورِ","de":"in die Herzen"},{"ar":"النَّاسِ","de":"der Menschen"}]},
+      {"verse": 6, "ar": "مِنَ الْجِنَّةِ وَالنَّاسِ", "de": "von den Dschinn und den Menschen", "words": [{"ar":"مِنَ","de":"von"},{"ar":"الْجِنَّةِ","de":"den Dschinn"},{"ar":"وَالنَّاسِ","de":"und den Menschen"}]}
     ]
   }
 ]
