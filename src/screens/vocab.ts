@@ -1,5 +1,6 @@
 import VOCAB from '../data/vocab.json';
 import { addXP, markWordLearned, getState, showToast } from '../main';
+import { bindSpkBtns } from '../utils/speak';
 
 export function initVocab(): void {
   const container = document.getElementById('sc-vocab');
@@ -36,7 +37,7 @@ export function initVocab(): void {
                   <div class="v-ph">[${w.ph}]</div>
                 </div>
                 <div style="display:flex;gap:6px;align-items:center">
-                  <button class="spk" data-word="${encodeURIComponent(w.ar)}">🔊</button>
+                  <button class="spk-ar" data-ar="${encodeURIComponent(w.ar)}">🔊</button>
                   <button class="learn-word-btn" data-ar="${encodeURIComponent(w.ar)}"
                     style="background:none;border:none;font-size:1.1rem;cursor:pointer;padding:4px">
                     ${learnedWords.has(w.ar) ? '✅' : '○'}
@@ -47,16 +48,7 @@ export function initVocab(): void {
       }).join('')}
     </div>`;
 
-  container.querySelectorAll<HTMLButtonElement>('.spk').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const word = decodeURIComponent(btn.dataset.word!);
-      if ('speechSynthesis' in window) {
-        const u = new SpeechSynthesisUtterance(word);
-        u.lang = 'ar-SA'; u.rate = 0.75;
-        speechSynthesis.speak(u);
-      }
-    });
-  });
+  bindSpkBtns(container);
 
   container.querySelectorAll<HTMLButtonElement>('.learn-word-btn').forEach(btn => {
     btn.addEventListener('click', () => {

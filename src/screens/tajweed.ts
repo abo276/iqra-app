@@ -1,5 +1,6 @@
 import RULES from '../data/tajweed.json';
 import { addXP, showToast } from '../main';
+import { bindSpkBtns } from '../utils/speak';
 
 export function initTajweed(): void {
   const container = document.getElementById('sc-tajweed');
@@ -84,7 +85,7 @@ function showRule(rule: typeof RULES[0]): void {
               <div style="font-family:var(--de-font);font-size:.6rem;color:#92400e;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">Beispiel</div>
               <div style="font-family:var(--ar-font);font-size:1.4rem;color:#1c1917;direction:rtl;text-align:right;margin-bottom:6px">${r.example_ar}</div>
               <div style="font-family:var(--de-font);font-size:.8rem;color:var(--muted);font-style:italic">${r.example_de}</div>
-              <button class="listen-btn" data-text="${r.example_ar}"
+              <button class="spk-ar" data-ar="${encodeURIComponent(r.example_ar)}"
                 style="margin-top:8px;background:#fef9e7;border:1px solid #fcd34d;border-radius:8px;padding:5px 12px;cursor:pointer;font-family:var(--ui-font);font-size:.75rem;color:#92400e">
                 🔊 Anhören
               </button>
@@ -103,15 +104,7 @@ function showRule(rule: typeof RULES[0]): void {
       </div>
     </div>`;
 
-  detail.querySelectorAll<HTMLButtonElement>('.listen-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if ('speechSynthesis' in window) {
-        const u = new SpeechSynthesisUtterance(btn.dataset.text!);
-        u.lang = 'ar-SA'; u.rate = 0.65;
-        speechSynthesis.speak(u);
-      }
-    });
-  });
+  bindSpkBtns(detail);
 
   document.getElementById('closeRule')?.addEventListener('click', () => detail.innerHTML = '');
   document.getElementById('ruleOverlay')?.addEventListener('click', (e) => { if (e.target === e.currentTarget) detail.innerHTML = ''; });

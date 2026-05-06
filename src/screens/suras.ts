@@ -1,5 +1,6 @@
 import SURAS from '../data/suras.json';
 import { addXP, getState, showToast } from '../main';
+import { spkBtn, bindSpkBtns } from '../utils/speak';
 
 export function initSuras(): void {
   const container = document.getElementById('sc-suras');
@@ -60,14 +61,17 @@ function showSura(sura: typeof SURAS[0]): void {
 
         ${sura.verses.map(v => `
           <div style="margin-bottom:20px;background:#fdf8f0;border-radius:14px;padding:16px;border-left:3px solid #fbbf24">
-            <div style="font-family:var(--ar-font);font-size:1.6rem;color:#1c1917;direction:rtl;line-height:1.8;margin-bottom:12px;text-align:right">
-              ${v.ar}
-              <span style="font-size:.9rem;color:#92400e;margin-right:8px">(${v.verse})</span>
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px">
+              <div style="font-family:var(--ar-font);font-size:1.6rem;color:#1c1917;direction:rtl;line-height:1.8;text-align:right;flex:1">
+                ${v.ar}
+                <span style="font-size:.9rem;color:#92400e;margin-right:8px">(${v.verse})</span>
+              </div>
+              ${spkBtn(v.ar, '🔊')}
             </div>
             <div style="font-family:var(--de-font);font-size:.85rem;color:#374151;margin-bottom:12px;font-style:italic">${v.de}</div>
             <div style="display:flex;flex-wrap:wrap;gap:6px;direction:rtl">
               ${v.words.map(w => `
-                <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:6px 10px;text-align:center;cursor:pointer;transition:all .2s" class="word-chip">
+                <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:6px 10px;text-align:center;cursor:pointer;transition:all .2s" class="word-chip spk-ar" data-ar="${encodeURIComponent(w.ar)}">
                   <div style="font-family:var(--ar-font);font-size:1rem;color:#1c1917">${w.ar}</div>
                   <div style="font-family:var(--de-font);font-size:.6rem;color:#92400e;margin-top:2px">${w.de}</div>
                 </div>`).join('')}
@@ -80,6 +84,7 @@ function showSura(sura: typeof SURAS[0]): void {
       </div>
     </div>`;
 
+  bindSpkBtns(detail);
   document.getElementById('closeSura')?.addEventListener('click', () => detail.innerHTML = '');
   document.getElementById('markSuraBtn')?.addEventListener('click', () => {
     addXP(30);
