@@ -1,6 +1,39 @@
 import { showToast } from '../main';
 
-// ── Stimmen einmalig cachen ───────────────────────────────────────────────
+// ── Echte Aufnahmen für alle 28 arabischen Buchstaben (islamcan.com) ───────
+const _BASE = 'https://www.islamcan.com/audio/arabic-alphabets/';
+const LETTER_AUDIO: Record<string, string> = {
+  'أَلِف': _BASE + '001-alif.mp3',
+  'بَاء':  _BASE + '002-ba.mp3',
+  'تَاء':  _BASE + '003-taa.mp3',
+  'ثَاء':  _BASE + '004-tha.mp3',
+  'جِيم':  _BASE + '005-jeem.mp3',
+  'حَاء':  _BASE + '006-haa.mp3',
+  'خَاء':  _BASE + '007-khaa.mp3',
+  'دَال':  _BASE + '008-dal.mp3',
+  'ذَال':  _BASE + '009-dhal.mp3',
+  'رَاء':  _BASE + '010-raa.mp3',
+  'زَاي':  _BASE + '011-jaa.mp3',
+  'سِين':  _BASE + '012-seen.mp3',
+  'شِين':  _BASE + '013-sheen.mp3',
+  'صَاد':  _BASE + '014-saad.mp3',
+  'ضَاد':  _BASE + '015-dhaad.mp3',
+  'طَاء':  _BASE + '016-toa.mp3',
+  'ظَاء':  _BASE + '017-dhaa.mp3',
+  'عَيْن': _BASE + '018-ain.mp3',
+  'غَيْن': _BASE + '019-ghain.mp3',
+  'فَاء':  _BASE + '020-faa.mp3',
+  'قَاف':  _BASE + '021-qaaf.mp3',
+  'كَاف':  _BASE + '022-kaaf.mp3',
+  'لَام':  _BASE + '023-laam.mp3',
+  'مِيم':  _BASE + '024-meem.mp3',
+  'نُون':  _BASE + '025-noon.mp3',
+  'وَاو':  _BASE + '026-waw.mp3',
+  'هَاء':  _BASE + '027-ha.mp3',
+  'يَاء':  _BASE + '029-yaa.mp3',
+};
+
+// ── Chrome Google-Arabic-Stimme cachen ────────────────────────────────────
 let _cachedArVoice: SpeechSynthesisVoice | null | undefined = undefined;
 
 function _getArVoice(): SpeechSynthesisVoice | null {
@@ -13,9 +46,7 @@ function _getArVoice(): SpeechSynthesisVoice | null {
 }
 
 if ('speechSynthesis' in window) {
-  window.speechSynthesis.addEventListener('voiceschanged', () => {
-    _cachedArVoice = undefined; // Cache invalidieren, beim nächsten Aufruf neu laden
-  });
+  window.speechSynthesis.addEventListener('voiceschanged', () => { _cachedArVoice = undefined; });
 }
 
 // ── MP3-Audio-Player ──────────────────────────────────────────────────────
@@ -37,14 +68,11 @@ function _stopCurrent(): void {
 
 function _playMp3(url: string, btn: HTMLElement | null, fallback?: () => void): void {
   _stopCurrent();
-
   const audio = new Audio(url);
   _currentAudio = audio;
   _currentBtn = btn;
-
   if (btn) { btn.textContent = '⏸'; btn.style.background = 'rgba(146,64,14,.3)'; }
 
-  // Guard: verhindert doppelten fallback()-Aufruf (onerror + play().catch feuern beide)
   let handled = false;
   const onFail = () => {
     if (handled) return;
@@ -52,21 +80,24 @@ function _playMp3(url: string, btn: HTMLElement | null, fallback?: () => void): 
     if (_currentAudio === audio) _stopCurrent();
     if (fallback) fallback(); else showToast('⚠️ Audio konnte nicht geladen werden');
   };
-
   audio.onended = () => { if (_currentAudio === audio) _stopCurrent(); };
   audio.onerror = onFail;
   audio.play().catch(onFail);
 }
 
-// ── Arabisch-TTS: ResponsiveVoice → Chrome-Cloud → Google TTS ────────────
+// ── Arabisch sprechen: Buchstabe → echte Aufnahme, sonst TTS ─────────────
 export function speakAr(text: string): void {
-  // 1. ResponsiveVoice — echte arabische Stimme, kein Systempaket nötig
-  const rv = (window as any).responsiveVoice;
-  if (rv && typeof rv.speak === 'function') {
-    rv.speak(text, 'Arabic Male', { rate: 0.8, onstart: () => {}, onerror: () => _ttsUrlFallback(text) });
+  // 1. Buchstabenname → islamcan.com Aufnahme (echte menschliche Stimme)
+  const letterUrl = LETTER_AUDIO[text];
+  if (letterUrl) {
+    _playMp3(letterUrl, null, () => _ttsAr(text));
     return;
   }
-  // 2. Chrome Google-Cloud-Stimme (wenn verfügbar)
+  // 2. Alles andere → Chrome-Stimme oder Google TTS
+  _ttsAr(text);
+}
+
+function _ttsAr(text: string): void {
   if ('speechSynthesis' in window) {
     const arVoice = _getArVoice();
     if (arVoice) {
@@ -79,19 +110,14 @@ export function speakAr(text: string): void {
       return;
     }
   }
-  // 3. Google TTS URL als letzter Ausweg
-  _ttsUrlFallback(text);
-}
-
-function _ttsUrlFallback(text: string): void {
   const url1 = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=tw-ob`;
   const url2 = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx`;
   _playMp3(url1, null, () => _playMp3(url2, null, () =>
-    showToast('⚠️ Audio nicht verfügbar — Internetverbindung oder Netzwerksperre')
+    showToast('⚠️ Audio nicht verfügbar')
   ));
 }
 
-// ── Ganzen Vers abspielen (everyayah.com — Alafasy 128kbps) ───────────────
+// ── Ganzen Vers (Alafasy MP3, everyayah.com) ──────────────────────────────
 export function speakVerse(surahNum: number, verseNum: number, btn: HTMLElement | null = null): void {
   if (_currentAudio && !_currentAudio.paused) { _stopCurrent(); return; }
   const s = String(surahNum).padStart(3, '0');
@@ -141,12 +167,10 @@ export function bindVerseBtns(root: HTMLElement): void {
 }
 
 export function bindWordChips(root: HTMLElement): void {
-  // Vers-Buttons einmalig indexieren — kein DOM-Query bei jedem Klick
   const verseBtnMap = new Map<string, HTMLElement>();
   root.querySelectorAll<HTMLElement>('.spk-verse').forEach(btn => {
     verseBtnMap.set(`${btn.dataset.surah}-${btn.dataset.verse}`, btn);
   });
-
   root.querySelectorAll<HTMLElement>('.word-chip').forEach(chip => {
     chip.addEventListener('click', (e) => {
       e.stopPropagation();
