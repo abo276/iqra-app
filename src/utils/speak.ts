@@ -85,36 +85,58 @@ function _playMp3(url: string, btn: HTMLElement | null, fallback?: () => void): 
   audio.play().catch(onFail);
 }
 
-// ── Arabisch sprechen: Buchstabe → echte Aufnahme, sonst TTS ─────────────
+// ── Arabisch sprechen: Azure Neural TTS → Buchstaben-MP3 → Browser TTS ───
 export function speakAr(text: string): void {
-  // 1. Buchstabenname → islamcan.com Aufnahme (echte menschliche Stimme)
-  const letterUrl = LETTER_AUDIO[text];
-  if (letterUrl) {
-    _playMp3(letterUrl, null, () => _ttsAr(text));
-    return;
-  }
-  // 2. Alles andere → Chrome-Stimme oder Google TTS
-  _ttsAr(text);
+  _azureTts(text, () => {
+    // Fallback: bekannte Buchstaben-MP3
+    const letterUrl = LETTER_AUDIO[text];
+    if (letterUrl) { _playMp3(letterUrl, null, () => _browserTts(text)); return; }
+    _browserTts(text);
+  });
 }
 
-function _ttsAr(text: string): void {
+async function _azureTts(text: string, fallback: () => void): Promise<void> {
+  const key    = (import.meta.env.VITE_AZURE_KEY    as string | undefined) ?? '';
+  const region = (import.meta.env.VITE_AZURE_REGION as string | undefined) ?? 'germanywestcentral';
+  if (!key) { fallback(); return; }
+
+  // Sonderzeichen für SSML escapen
+  const safe = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const ssml = `<speak version='1.0' xml:lang='ar-SA'><voice name='ar-SA-HamedNeural'><prosody rate='-10%'>${safe}</prosody></voice></speak>`;
+
+  try {
+    const res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': key,
+        'Content-Type': 'application/ssml+xml',
+        'X-Microsoft-OutputFormat': 'audio-24khz-48kbitrate-mono-mp3',
+      },
+      body: ssml,
+    });
+    if (!res.ok) { fallback(); return; }
+    const blob = await res.blob();
+    const url  = URL.createObjectURL(blob);
+    _playMp3(url, null, fallback);
+  } catch {
+    fallback();
+  }
+}
+
+function _browserTts(text: string): void {
   if ('speechSynthesis' in window) {
     const arVoice = _getArVoice();
     if (arVoice) {
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      u.voice = arVoice;
-      u.lang = 'ar';
-      u.rate = 0.8;
+      u.voice = arVoice; u.lang = 'ar'; u.rate = 0.8;
       window.speechSynthesis.speak(u);
       return;
     }
   }
   const url1 = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=tw-ob`;
   const url2 = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx`;
-  _playMp3(url1, null, () => _playMp3(url2, null, () =>
-    showToast('⚠️ Audio nicht verfügbar')
-  ));
+  _playMp3(url1, null, () => _playMp3(url2, null, () => showToast('⚠️ Audio nicht verfügbar')));
 }
 
 // ── Ganzen Vers (Alafasy MP3, everyayah.com) ──────────────────────────────
