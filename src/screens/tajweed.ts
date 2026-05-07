@@ -76,7 +76,7 @@ function showRule(rule: typeof RULES[0]): void {
             <div style="margin-bottom:10px">
               <div style="font-family:var(--de-font);font-size:.6rem;color:#92400e;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">Buchstaben</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px">
-                ${r.letters.map(l => `<span style="background:white;border:1.5px solid ${rule.color};border-radius:8px;padding:4px 10px;font-family:var(--ar-font);font-size:1.2rem;color:${rule.color}">${l}</span>`).join('')}
+                ${r.letters.map(l => `<span class="spk-ar" data-ar="${encodeURIComponent(l)}" style="background:white;border:1.5px solid ${rule.color};border-radius:8px;padding:4px 10px;font-family:var(--ar-font);font-size:1.2rem;color:${rule.color};cursor:pointer;transition:background .2s;user-select:none">${l}</span>`).join('')}
               </div>
             </div>` : ''}
 

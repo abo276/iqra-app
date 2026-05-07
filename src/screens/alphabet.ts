@@ -113,7 +113,8 @@ function showLetterDetail(letter: string, l: typeof LETTERS[0]): void {
 }
 
 function formBox(label: string, form: string): string {
-  return `<div style="text-align:center;flex:1">
+  return `<div class="spk-ar" data-ar="${encodeURIComponent(form)}"
+    style="text-align:center;flex:1;cursor:pointer;border-radius:8px;padding:4px;transition:background .2s;user-select:none">
     <div style="font-family:var(--ar-font);font-size:1.5rem;color:#1c1917;min-height:36px;line-height:1.2">${form}</div>
     <div style="font-family:var(--de-font);font-size:.55rem;color:var(--muted);margin-top:2px">${label}</div>
   </div>`;
