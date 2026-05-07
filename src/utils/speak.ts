@@ -32,30 +32,29 @@ function _playMp3(url: string, btn?: HTMLElement, fallback?: () => void): void {
   });
 }
 
-// ── Arabisch-Audio: mehrere Quellen als Fallback-Kette ────────────────────
-function _trySpeechSynthesis(text: string): void {
-  if (!('speechSynthesis' in window)) {
-    showToast('⚠️ Keine arabische Stimme verfügbar');
-    return;
-  }
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'ar';
-  u.rate = 0.8;
-  u.onerror = () => showToast('⚠️ Keine arabische Stimme installiert');
-  window.speechSynthesis.speak(u);
-}
-
+// ── Arabisch-TTS: Chrome-Cloud → Google TTS URL ───────────────────────────
 export function speakAr(text: string): void {
-  // 1. Versuch: translate.google.com (tw-ob)
+  // Chrome hat eingebaute Google-Cloud-Stimmen — zuerst versuchen
+  if ('speechSynthesis' in window) {
+    const voices = window.speechSynthesis.getVoices();
+    const arVoice = voices.find(v => v.lang.startsWith('ar') && v.name.toLowerCase().includes('google'))
+                 ?? voices.find(v => v.lang.startsWith('ar'));
+    if (arVoice) {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.voice = arVoice;
+      u.lang = 'ar';
+      u.rate = 0.8;
+      window.speechSynthesis.speak(u);
+      return;
+    }
+  }
+  // Fallback: Google Translate TTS als MP3
   const url1 = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=tw-ob`;
-  // 2. Versuch: translate.googleapis.com (gtx)
   const url2 = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx`;
-  _playMp3(url1, undefined, () =>
-    _playMp3(url2, undefined, () =>
-      _trySpeechSynthesis(text)
-    )
-  );
+  _playMp3(url1, undefined, () => _playMp3(url2, undefined, () =>
+    showToast('⚠️ Audio nur auf dem Handy verfügbar (Netzwerk-Einschränkung)')
+  ));
 }
 
 // ── Ganzen Vers abspielen (everyayah.com — Alafasy 128kbps) ───────────────
@@ -70,21 +69,10 @@ export function speakVerse(surahNum: number, verseNum: number, btn?: HTMLElement
   });
 }
 
-// ── Einzelnes Wort (Quran.com wbw-CDN — Alafasy, Fallback: Google TTS) ───
-export function speakWord(surahNum: number, verseNum: number, wordPos: number, fallbackText: string, btn?: HTMLElement): void {
-  if (_currentAudio && !_currentAudio.paused) {
-    _currentAudio.pause(); _currentAudio = null; _resetBtn(); return;
-  }
-  _playMp3(
-    `https://audio.qurancdn.com/wbw/${surahNum}/${verseNum}/${wordPos}.mp3`,
-    btn,
-    () => speakAr(fallbackText)
-  );
-}
-
 export function stopCurrentAudio(): void {
   if (_currentAudio) { _currentAudio.pause(); _currentAudio = null; }
   _resetBtn();
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
 // ── HTML-Hilfsfunktionen ──────────────────────────────────────────────────
@@ -96,7 +84,7 @@ export function spkBtn(text: string, label = '🔊'): string {
     transition:all .2s">${label}</button>`;
 }
 
-// Buttons für Buchstaben, Vokabeln, Tajweed-Beispiele (Google TTS)
+// Buttons für Buchstaben, Vokabeln, Tajweed-Beispiele
 export function bindSpkBtns(root: HTMLElement): void {
   root.querySelectorAll<HTMLElement>('.spk-ar').forEach(el => {
     el.addEventListener('click', (e) => {
@@ -123,20 +111,25 @@ export function bindVerseBtns(root: HTMLElement): void {
   });
 }
 
-// Wort-Chips in Suren (Alafasy wbw, Fallback Google TTS)
+// Wort-Chips: spielt den ganzen Vers (wie Quran.com & Tarteel)
+// Einzelne herausgeschnittene Wörter klingen abgehackt und respektlos —
+// der vollständige Vers klingt natürlich und ist die Standard-Lösung.
 export function bindWordChips(root: HTMLElement): void {
   root.querySelectorAll<HTMLElement>('.word-chip').forEach(chip => {
     chip.addEventListener('click', (e) => {
       e.stopPropagation();
       const surah = Number(chip.dataset.surah);
       const verse = Number(chip.dataset.verse);
-      const word  = Number(chip.dataset.word);
-      const ar    = decodeURIComponent(chip.dataset.ar ?? '');
-      if (surah && verse && word) {
-        speakWord(surah, verse, word, ar, chip);
-      } else if (ar) {
-        speakAr(ar);
-      }
+      if (!surah || !verse) return;
+
+      // Visuelles Feedback am Chip
+      chip.style.background = '#fef3c7';
+      chip.style.borderColor = '#fbbf24';
+      setTimeout(() => { chip.style.background = 'white'; chip.style.borderColor = '#e2e8f0'; }, 1000);
+
+      // Den Vers-Button des gleichen Verses finden und mitaktualisieren
+      const verseBtn = root.querySelector<HTMLElement>(`.spk-verse[data-surah="${surah}"][data-verse="${verse}"]`) ?? undefined;
+      speakVerse(surah, verse, verseBtn);
     });
   });
 }
