@@ -1,5 +1,23 @@
 import { showToast } from '../main';
 
+// ── Stimmen einmalig cachen ───────────────────────────────────────────────
+let _cachedArVoice: SpeechSynthesisVoice | null | undefined = undefined;
+
+function _getArVoice(): SpeechSynthesisVoice | null {
+  if (_cachedArVoice !== undefined) return _cachedArVoice;
+  const voices = window.speechSynthesis.getVoices();
+  _cachedArVoice = voices.find(v => v.lang.startsWith('ar') && v.name.toLowerCase().includes('google'))
+                ?? voices.find(v => v.lang.startsWith('ar'))
+                ?? null;
+  return _cachedArVoice;
+}
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.addEventListener('voiceschanged', () => {
+    _cachedArVoice = undefined; // Cache invalidieren, beim nächsten Aufruf neu laden
+  });
+}
+
 // ── MP3-Audio-Player ──────────────────────────────────────────────────────
 let _currentAudio: HTMLAudioElement | null = null;
 let _currentBtn: HTMLElement | null = null;
@@ -12,33 +30,38 @@ function _resetBtn(): void {
   }
 }
 
-function _playMp3(url: string, btn?: HTMLElement, fallback?: () => void): void {
-  if (_currentAudio) { _currentAudio.pause(); _currentAudio = null; _resetBtn(); }
+function _stopCurrent(): void {
+  if (_currentAudio) { _currentAudio.pause(); _currentAudio = null; }
+  _resetBtn();
+}
+
+function _playMp3(url: string, btn: HTMLElement | null, fallback?: () => void): void {
+  _stopCurrent();
 
   const audio = new Audio(url);
   _currentAudio = audio;
-  _currentBtn = btn ?? null;
+  _currentBtn = btn;
 
   if (btn) { btn.textContent = '⏸'; btn.style.background = 'rgba(146,64,14,.3)'; }
 
-  audio.onended = () => { if (_currentAudio === audio) { _currentAudio = null; _resetBtn(); } };
-  audio.onerror = () => {
-    if (_currentAudio === audio) { _currentAudio = null; _resetBtn(); }
+  // Guard: verhindert doppelten fallback()-Aufruf (onerror + play().catch feuern beide)
+  let handled = false;
+  const onFail = () => {
+    if (handled) return;
+    handled = true;
+    if (_currentAudio === audio) _stopCurrent();
     if (fallback) fallback(); else showToast('⚠️ Audio konnte nicht geladen werden');
   };
-  audio.play().catch(() => {
-    _currentAudio = null; _resetBtn();
-    if (fallback) fallback(); else showToast('⚠️ Bitte zuerst eine andere Taste drücken');
-  });
+
+  audio.onended = () => { if (_currentAudio === audio) _stopCurrent(); };
+  audio.onerror = onFail;
+  audio.play().catch(onFail);
 }
 
-// ── Arabisch-TTS: Chrome-Cloud → Google TTS URL ───────────────────────────
+// ── Arabisch-TTS: Chrome-Cloud-Stimme → Google TTS URL ───────────────────
 export function speakAr(text: string): void {
-  // Chrome hat eingebaute Google-Cloud-Stimmen — zuerst versuchen
   if ('speechSynthesis' in window) {
-    const voices = window.speechSynthesis.getVoices();
-    const arVoice = voices.find(v => v.lang.startsWith('ar') && v.name.toLowerCase().includes('google'))
-                 ?? voices.find(v => v.lang.startsWith('ar'));
+    const arVoice = _getArVoice();
     if (arVoice) {
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
@@ -49,29 +72,25 @@ export function speakAr(text: string): void {
       return;
     }
   }
-  // Fallback: Google Translate TTS als MP3
   const url1 = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=tw-ob`;
   const url2 = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx`;
-  _playMp3(url1, undefined, () => _playMp3(url2, undefined, () =>
+  _playMp3(url1, null, () => _playMp3(url2, null, () =>
     showToast('⚠️ Audio nur auf dem Handy verfügbar (Netzwerk-Einschränkung)')
   ));
 }
 
 // ── Ganzen Vers abspielen (everyayah.com — Alafasy 128kbps) ───────────────
-export function speakVerse(surahNum: number, verseNum: number, btn?: HTMLElement): void {
-  if (_currentAudio && !_currentAudio.paused) {
-    _currentAudio.pause(); _currentAudio = null; _resetBtn(); return;
-  }
+export function speakVerse(surahNum: number, verseNum: number, btn: HTMLElement | null = null): void {
+  if (_currentAudio && !_currentAudio.paused) { _stopCurrent(); return; }
   const s = String(surahNum).padStart(3, '0');
   const v = String(verseNum).padStart(3, '0');
-  _playMp3(`https://everyayah.com/data/Alafasy_128kbps/${s}${v}.mp3`, btn, () => {
-    showToast('⚠️ Vers-Audio konnte nicht geladen werden');
-  });
+  _playMp3(`https://everyayah.com/data/Alafasy_128kbps/${s}${v}.mp3`, btn, () =>
+    showToast('⚠️ Vers-Audio konnte nicht geladen werden')
+  );
 }
 
 export function stopCurrentAudio(): void {
-  if (_currentAudio) { _currentAudio.pause(); _currentAudio = null; }
-  _resetBtn();
+  _stopCurrent();
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
@@ -84,7 +103,6 @@ export function spkBtn(text: string, label = '🔊'): string {
     transition:all .2s">${label}</button>`;
 }
 
-// Buttons für Buchstaben, Vokabeln, Tajweed-Beispiele
 export function bindSpkBtns(root: HTMLElement): void {
   root.querySelectorAll<HTMLElement>('.spk-ar').forEach(el => {
     el.addEventListener('click', (e) => {
@@ -98,7 +116,6 @@ export function bindSpkBtns(root: HTMLElement): void {
   });
 }
 
-// Vers-Buttons (🔊 neben jedem Vers — Alafasy MP3)
 export function bindVerseBtns(root: HTMLElement): void {
   root.querySelectorAll<HTMLButtonElement>('.spk-verse').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -111,25 +128,23 @@ export function bindVerseBtns(root: HTMLElement): void {
   });
 }
 
-// Wort-Chips: spielt den ganzen Vers (wie Quran.com & Tarteel)
-// Einzelne herausgeschnittene Wörter klingen abgehackt und respektlos —
-// der vollständige Vers klingt natürlich und ist die Standard-Lösung.
 export function bindWordChips(root: HTMLElement): void {
+  // Vers-Buttons einmalig indexieren — kein DOM-Query bei jedem Klick
+  const verseBtnMap = new Map<string, HTMLElement>();
+  root.querySelectorAll<HTMLElement>('.spk-verse').forEach(btn => {
+    verseBtnMap.set(`${btn.dataset.surah}-${btn.dataset.verse}`, btn);
+  });
+
   root.querySelectorAll<HTMLElement>('.word-chip').forEach(chip => {
     chip.addEventListener('click', (e) => {
       e.stopPropagation();
       const surah = Number(chip.dataset.surah);
       const verse = Number(chip.dataset.verse);
       if (!surah || !verse) return;
-
-      // Visuelles Feedback am Chip
       chip.style.background = '#fef3c7';
       chip.style.borderColor = '#fbbf24';
       setTimeout(() => { chip.style.background = 'white'; chip.style.borderColor = '#e2e8f0'; }, 1000);
-
-      // Den Vers-Button des gleichen Verses finden und mitaktualisieren
-      const verseBtn = root.querySelector<HTMLElement>(`.spk-verse[data-surah="${surah}"][data-verse="${verse}"]`) ?? undefined;
-      speakVerse(surah, verse, verseBtn);
+      speakVerse(surah, verse, verseBtnMap.get(`${surah}-${verse}`) ?? null);
     });
   });
 }
