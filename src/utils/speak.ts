@@ -58,8 +58,15 @@ function _playMp3(url: string, btn: HTMLElement | null, fallback?: () => void): 
   audio.play().catch(onFail);
 }
 
-// ── Arabisch-TTS: Chrome-Cloud-Stimme → Google TTS URL ───────────────────
+// ── Arabisch-TTS: ResponsiveVoice → Chrome-Cloud → Google TTS ────────────
 export function speakAr(text: string): void {
+  // 1. ResponsiveVoice — echte arabische Stimme, kein Systempaket nötig
+  const rv = (window as any).responsiveVoice;
+  if (rv && typeof rv.speak === 'function') {
+    rv.speak(text, 'Arabic Male', { rate: 0.8, onstart: () => {}, onerror: () => _ttsUrlFallback(text) });
+    return;
+  }
+  // 2. Chrome Google-Cloud-Stimme (wenn verfügbar)
   if ('speechSynthesis' in window) {
     const arVoice = _getArVoice();
     if (arVoice) {
@@ -72,10 +79,15 @@ export function speakAr(text: string): void {
       return;
     }
   }
+  // 3. Google TTS URL als letzter Ausweg
+  _ttsUrlFallback(text);
+}
+
+function _ttsUrlFallback(text: string): void {
   const url1 = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=tw-ob`;
   const url2 = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx`;
   _playMp3(url1, null, () => _playMp3(url2, null, () =>
-    showToast('⚠️ Audio nur auf dem Handy verfügbar (Netzwerk-Einschränkung)')
+    showToast('⚠️ Audio nicht verfügbar — Internetverbindung oder Netzwerksperre')
   ));
 }
 
