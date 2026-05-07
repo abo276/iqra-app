@@ -24,7 +24,7 @@ function renderAlphabetList(container: HTMLElement): void {
             <div class="alpha-letter">${l.letter}</div>
             <div class="alpha-name">${l.name}</div>
             <div class="alpha-sound">${l.sound}</div>
-            <button class="spk-ar" data-ar="${encodeURIComponent(l.letter)}"
+            <button class="spk-ar" data-ar="${encodeURIComponent(l.name_ar)}"
               style="position:absolute;top:5px;right:5px;background:rgba(146,64,14,.12);
               border:1px solid rgba(146,64,14,.2);border-radius:50%;width:24px;height:24px;
               display:flex;align-items:center;justify-content:center;cursor:pointer;
@@ -60,7 +60,7 @@ function showLetterDetail(letter: string, l: typeof LETTERS[0]): void {
         <div style="text-align:center;margin-bottom:20px">
           <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:8px">
             <div style="font-family:var(--ar-font);font-size:4rem;color:#92400e;line-height:1">${l.letter}</div>
-            ${spkBtn(l.letter, '🔊')}
+            ${spkBtn(l.name_ar, '🔊')}
           </div>
           <div style="font-family:var(--de-font);font-size:1.3rem;font-weight:700;color:#1c1917">${l.name}</div>
           <div style="font-family:var(--de-font);font-size:.85rem;color:#92400e;margin-top:4px">Aussprache: <strong>${l.sound}</strong></div>
@@ -70,10 +70,10 @@ function showLetterDetail(letter: string, l: typeof LETTERS[0]): void {
         <div style="background:#fef9e7;border-radius:12px;padding:14px;margin-bottom:16px">
           <div style="font-family:var(--de-font);font-size:.6rem;color:#92400e;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Formen im Wort</div>
           <div style="display:flex;gap:12px;justify-content:center">
-            ${formBox('Einzeln', l.isolated)}
-            ${formBox('Wortanfang', l.initial)}
-            ${formBox('Wortmitte', l.medial)}
-            ${formBox('Wortende', l.final)}
+            ${formBox('Einzeln', l.isolated, l.name_ar)}
+            ${formBox('Wortanfang', l.initial, l.name_ar)}
+            ${formBox('Wortmitte', l.medial, l.name_ar)}
+            ${formBox('Wortende', l.final, l.name_ar)}
           </div>
         </div>
 
@@ -112,8 +112,8 @@ function showLetterDetail(letter: string, l: typeof LETTERS[0]): void {
   });
 }
 
-function formBox(label: string, form: string): string {
-  return `<div class="spk-ar" data-ar="${encodeURIComponent(form)}"
+function formBox(label: string, form: string, nameAr: string): string {
+  return `<div class="spk-ar" data-ar="${encodeURIComponent(nameAr)}"
     style="text-align:center;flex:1;cursor:pointer;border-radius:8px;padding:4px;transition:background .2s;user-select:none">
     <div style="font-family:var(--ar-font);font-size:1.5rem;color:#1c1917;min-height:36px;line-height:1.2">${form}</div>
     <div style="font-family:var(--de-font);font-size:.55rem;color:var(--muted);margin-top:2px">${label}</div>
