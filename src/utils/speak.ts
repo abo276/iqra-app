@@ -1,74 +1,6 @@
 import { showToast } from '../main';
 
-// ── TTS: Stimmen so früh wie möglich laden (async in Chrome) ──────────────
-let _voices: SpeechSynthesisVoice[] = [];
-
-function _loadVoices(): void {
-  const v = window.speechSynthesis.getVoices();
-  if (v.length > 0) _voices = v;
-}
-
-if ('speechSynthesis' in window) {
-  _loadVoices();
-  window.speechSynthesis.addEventListener('voiceschanged', _loadVoices);
-}
-
-function _getArVoice(): SpeechSynthesisVoice | null {
-  if (_voices.length === 0) _voices = window.speechSynthesis.getVoices();
-  return (
-    _voices.find(v => v.lang === 'ar-SA') ??
-    _voices.find(v => v.lang === 'ar') ??
-    _voices.find(v => v.lang.startsWith('ar')) ??
-    null
-  );
-}
-
-export function speakAr(text: string, rate = 0.7): void {
-  if (!('speechSynthesis' in window)) {
-    showToast('⚠️ Audio nicht unterstützt');
-    return;
-  }
-
-  const doSpeak = () => {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ar-SA';
-    u.rate = rate;
-    u.pitch = 1;
-    u.volume = 1;
-
-    const arVoice = _getArVoice();
-    if (arVoice) u.voice = arVoice;
-
-    // Chrome-Bug: Speech Synthesis friert manchmal ein — keepalive
-    let keepAlive: ReturnType<typeof setInterval> | null = null;
-    const stopKeepAlive = () => { if (keepAlive) { clearInterval(keepAlive); keepAlive = null; } };
-
-    u.onstart = () => {
-      keepAlive = setInterval(() => {
-        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-        if (!window.speechSynthesis.speaking) stopKeepAlive();
-      }, 5000);
-    };
-    u.onend = stopKeepAlive;
-    u.onerror = (e) => {
-      stopKeepAlive();
-      if (e.error !== 'interrupted' && e.error !== 'canceled') {
-        showToast('⚠️ Keine arabische Stimme installiert');
-      }
-    };
-
-    window.speechSynthesis.speak(u);
-  };
-
-  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-    window.speechSynthesis.cancel();
-    setTimeout(doSpeak, 250);
-  } else {
-    doSpeak();
-  }
-}
-
-// ── MP3-Audio-Player (Verse & Wörter) ─────────────────────────────────────
+// ── MP3-Audio-Player ──────────────────────────────────────────────────────
 let _currentAudio: HTMLAudioElement | null = null;
 let _currentBtn: HTMLElement | null = null;
 
@@ -100,7 +32,13 @@ function _playMp3(url: string, btn?: HTMLElement, fallback?: () => void): void {
   });
 }
 
-// Ganzen Vers abspielen (everyayah.com — Alafasy 128kbps)
+// ── Arabisch-Audio: Google Translate TTS (kein Sprachpaket nötig) ─────────
+export function speakAr(text: string, rate = 0.7): void {
+  const url = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx&ttsspeed=${rate}`;
+  _playMp3(url, undefined, () => showToast('⚠️ Internetverbindung prüfen'));
+}
+
+// ── Ganzen Vers abspielen (everyayah.com — Alafasy 128kbps) ───────────────
 export function speakVerse(surahNum: number, verseNum: number, btn?: HTMLElement): void {
   if (_currentAudio && !_currentAudio.paused) {
     _currentAudio.pause(); _currentAudio = null; _resetBtn(); return;
@@ -112,19 +50,21 @@ export function speakVerse(surahNum: number, verseNum: number, btn?: HTMLElement
   });
 }
 
-// Einzelnes Wort abspielen (Quran.com wbw-CDN — Alafasy, Fallback: TTS)
+// ── Einzelnes Wort (Quran.com wbw-CDN — Alafasy, Fallback: Google TTS) ───
 export function speakWord(surahNum: number, verseNum: number, wordPos: number, fallbackText: string, btn?: HTMLElement): void {
   if (_currentAudio && !_currentAudio.paused) {
     _currentAudio.pause(); _currentAudio = null; _resetBtn(); return;
   }
-  const url = `https://audio.qurancdn.com/wbw/${surahNum}/${verseNum}/${wordPos}.mp3`;
-  _playMp3(url, btn, () => speakAr(fallbackText));
+  _playMp3(
+    `https://audio.qurancdn.com/wbw/${surahNum}/${verseNum}/${wordPos}.mp3`,
+    btn,
+    () => speakAr(fallbackText)
+  );
 }
 
 export function stopCurrentAudio(): void {
   if (_currentAudio) { _currentAudio.pause(); _currentAudio = null; }
   _resetBtn();
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 
 // ── HTML-Hilfsfunktionen ──────────────────────────────────────────────────
@@ -136,12 +76,12 @@ export function spkBtn(text: string, label = '🔊'): string {
     transition:all .2s">${label}</button>`;
 }
 
-// TTS-Buttons (Buchstaben, Vokabeln, Tajweed-Beispiele)
+// Buttons für Buchstaben, Vokabeln, Tajweed-Beispiele (Google TTS)
 export function bindSpkBtns(root: HTMLElement): void {
   root.querySelectorAll<HTMLElement>('.spk-ar').forEach(el => {
     el.addEventListener('click', (e) => {
       e.stopPropagation();
-      const text = decodeURIComponent((el as HTMLElement).dataset.ar ?? '');
+      const text = decodeURIComponent(el.dataset.ar ?? '');
       if (!text) return;
       speakAr(text);
       el.style.background = 'rgba(146,64,14,.3)';
@@ -150,7 +90,7 @@ export function bindSpkBtns(root: HTMLElement): void {
   });
 }
 
-// Vers-Buttons (🔊 neben jedem Vers)
+// Vers-Buttons (🔊 neben jedem Vers — Alafasy MP3)
 export function bindVerseBtns(root: HTMLElement): void {
   root.querySelectorAll<HTMLButtonElement>('.spk-verse').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -163,7 +103,7 @@ export function bindVerseBtns(root: HTMLElement): void {
   });
 }
 
-// Wort-Chips in Suren (echtes Alafasy-Wort-Audio, Fallback TTS)
+// Wort-Chips in Suren (Alafasy wbw, Fallback Google TTS)
 export function bindWordChips(root: HTMLElement): void {
   root.querySelectorAll<HTMLElement>('.word-chip').forEach(chip => {
     chip.addEventListener('click', (e) => {
