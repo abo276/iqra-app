@@ -32,10 +32,30 @@ function _playMp3(url: string, btn?: HTMLElement, fallback?: () => void): void {
   });
 }
 
-// ── Arabisch-Audio: Google Translate TTS (kein Sprachpaket nötig) ─────────
-export function speakAr(text: string, rate = 0.7): void {
-  const url = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx&ttsspeed=${rate}`;
-  _playMp3(url, undefined, () => showToast('⚠️ Internetverbindung prüfen'));
+// ── Arabisch-Audio: mehrere Quellen als Fallback-Kette ────────────────────
+function _trySpeechSynthesis(text: string): void {
+  if (!('speechSynthesis' in window)) {
+    showToast('⚠️ Keine arabische Stimme verfügbar');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ar';
+  u.rate = 0.8;
+  u.onerror = () => showToast('⚠️ Keine arabische Stimme installiert');
+  window.speechSynthesis.speak(u);
+}
+
+export function speakAr(text: string): void {
+  // 1. Versuch: translate.google.com (tw-ob)
+  const url1 = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=tw-ob`;
+  // 2. Versuch: translate.googleapis.com (gtx)
+  const url2 = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ar&client=gtx`;
+  _playMp3(url1, undefined, () =>
+    _playMp3(url2, undefined, () =>
+      _trySpeechSynthesis(text)
+    )
+  );
 }
 
 // ── Ganzen Vers abspielen (everyayah.com — Alafasy 128kbps) ───────────────
